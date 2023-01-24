@@ -19,6 +19,7 @@ contract Lottery {
     }
 
     function enter() public payable {
+        require(msg.sender != manager);
         require(msg.value >= 0.01 ether, "The least amount to enter in the lottery is 0.01 ether");
         players.push(msg.sender);
     }
@@ -29,8 +30,8 @@ contract Lottery {
 
 
     function pickWinner() public payable {
-        require(players.length > 0, "No player has entered");
         require(msg.sender == manager, "You are not authorized to pick a winner");
+        require(players.length > 0, "No player has entered");
         uint winnerIndex = getRandomNumber() % players.length;
         payable(players[winnerIndex]).transfer(address(this).balance);
         resetContract();
