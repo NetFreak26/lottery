@@ -125,6 +125,8 @@ describe("Testing Lottery Contract", () => {
             value: web3.utils.toWei('0.01', 'ether'),
             gas: 1000000
         });
+
+        assert.equal(await web3.eth.getBalance(lotteryContract.options.address), 20000000000000000);
         await lotteryContract.methods.pickWinner().send({
             from: accounts[0],
             gas: 100000
@@ -132,6 +134,6 @@ describe("Testing Lottery Contract", () => {
 
         const players = await lotteryContract.methods.getPlayers().call();
         assert.equal(players.length, 0);
-        assert.equal(await web3.eth.getBalance(lotteryContract.address), 0);
+        assert.equal(await web3.eth.getBalance(lotteryContract.options.address), 0);
     });
 })
